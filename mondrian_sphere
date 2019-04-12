@@ -1,0 +1,55 @@
+//this is audio generative so you need a sound playing in your computer mic
+
+import processing.sound.*;
+
+FFT fft;
+AudioIn in;
+int bands = 256;
+float[] spectrum = new float[bands];
+float fft_a;
+
+Amplitude amp;
+float ampt;
+
+float x;
+
+void setup() {
+  frameRate(200);
+  size(2400, 400, P3D);
+  
+  fft = new FFT(this, bands);
+  amp = new Amplitude(this);
+  in = new AudioIn(this, 0);
+  in.start();
+  fft.input(in);
+  amp.input(in);
+}
+
+void draw() {
+  background(0);
+  stroke(255);
+  fill(0);
+  strokeWeight(1);
+  ampt = amp.analyze();
+  fft.analyze(spectrum);
+  x = random(0, bands);
+  float height1 = float(height);
+  float width1 = float(width);
+  for (float i = 0; i < bands; i++) {
+    rect(width1/2, 0, -(ampt*10000), height1);
+    rect(width1/2, 0, (ampt*10000), height1);
+    rect(width1/2, 0, width1, (ampt*5000));
+    rect(0, height1, width1/2, -(ampt*1667));
+    rect(width1/2, height1/2, (ampt*1667), -(ampt*1667));
+    rect(width1/2, height1/2, -(ampt*1667), (ampt*1667));
+    rect(width1/2, height1/2, -(ampt*1667), -(ampt*900));
+    rect(width1/2, height1/2, (ampt*1667), (ampt*1667));
+    translate(width1/2, height1/2, 0);
+    sphere(ampt*20000);
+    
+    ;
+  }
+}
+float y(float x) {
+   return sin(x)*10 + cos(spectrum[int(x)]);
+ }
