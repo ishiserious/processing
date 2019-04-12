@@ -1,0 +1,107 @@
+//created from parametric equations, meant to look like a globe with the creation and fall of cities
+
+import ddf.minim.*;
+import ddf.minim.signals.*; 
+//import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import processing.sound.*;
+Minim minim;
+AudioPlayer player;
+
+static final int NUM_LINES = 100;
+float t;
+float r = radians(301);
+float r2 = radians(140);
+float r3 = radians(34);
+
+FFT fft;
+AudioIn in;
+int bands = 256;
+float[] spectrum = new float[bands];
+float fft_a;
+
+Amplitude amp;
+float ampt;
+
+void setup() {
+  frameRate(24);
+  background(0);
+  smooth();
+  size(1980, 1020, P3D);
+  //minim = new Minim (this);
+  //player = minim.loadFile("HATEFUL_VER2_(RHYME REMIX) Demo.mp3", 512);
+  //player.loop();
+  
+  fft = new FFT(this, bands);
+  amp = new Amplitude(this);
+  in = new AudioIn(this, 0);
+  in.start();
+  fft.input(in);  
+  //fft.input(in);
+  amp.input(in);
+  
+  //fft = new FFT(player.bufferSize(), player.sampleRate());
+  //fft_a = average(fft.analyze(spectrum));
+}
+
+void draw() {
+  background(255);
+  stroke(0);
+  fill(230, 200, ampt*2000);
+  strokeWeight(3);
+  ampt = amp.analyze();
+  fft.analyze(spectrum);
+  translate(width/2, height/2);
+  //rect(x(t), y(t), x2(t),y2(t));
+  rotateX(t);
+  rotateX(r);
+  rotateY(r2);
+  rotateY(-t);
+  rotateZ(r3);
+  rotateZ(t);
+  //for (int i = 0; i < NUM_LINES; i++) {
+ for(int i = 0; i < bands; i++){
+  // The result of the FFT is normalized
+  // draw the line for frequency band i scaling it up by 5 to get more amplitude.
+  //background(t*100, t*150, t*50);
+  rotateX(radians(120));
+  box(x(ampt*2+i) + 10, y(t*spectrum[i]) + 50, x2(t + ampt) + 10);
+  box(y(spectrum[250]*10 + i) -40, x(ampt*5*t+i),x2(t*ampt)*2);
+  box(x(spectrum[i])*10 +40, y(spectrum[i]*10), x(ampt*t+i) - 100);
+  rotateY(radians(120));
+  box(y3(spectrum[i])*10 +40, y3(spectrum[i]*10), x(ampt*t+i) - 100);
+  //rotateY(spectrum[i]*50);
+  rotateZ(radians(120));
+  box(y3(ampt*t) + 100, y3(ampt*3)*5, x(ampt*t+i)*5);
+  //box(y2(t + i)*5, y(ampt + i), x(ampt*t+i));
+  //sphere(x(x2(ampt+i)));
+  //rect(x(t+i), y(t+i), x2(t+i), y2(t+i));
+  //ellipse(x(t+i), y(t+i), x2(t+i), y2(t+i));
+  //line(x(t + i)*2, y(t + i)*2, x2(t + i)*2, y2(t+i));
+  //;
+  }
+  t += .01;
+  print(t);
+  
+//saveFrame("output/wreckedangle_####.png");
+}
+
+float x(float t) {
+    return (sin(t) * 2 + cos(t) * 20)* tan(t);
+  }
+  
+float y(float t) {
+    return sin(t) * 50+ cos(t)*5 ;
+  }
+  
+float x2(float t) {
+    return cos(t)*5 + tan(t*50);
+  }
+  
+float y2(float t) {
+    return cos(t)*10;
+  }
+
+float y3(float t) {
+    return tan(ampt)*10 + cos(2.5);
+  }
