@@ -2,6 +2,9 @@
 
 import processing.sound.*;
 
+ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+Rectangle c;
+
 FFT fft;
 AudioIn in;
 int bands = 256;
@@ -35,7 +38,12 @@ void draw() {
   x = random(0, bands);
   float height1 = float(height);
   float width1 = float(width);
-  for (float i = 0; i < bands; i++) {
+  
+  for (int i = 0; i < rectangles.size(); ++i) {//starts at 1 because ++i instead of i++
+    rectangles.get(i).display();
+    //rectangles.get(i).checkEdges();
+  }
+  for (float t = 0; t < bands; t++) {
     rect(width1/2, 0, -(ampt*10000), height1);
     rect(width1/2, 0, (ampt*10000), height1);
     rect(width1/2, 0, width1, (ampt*5000));
@@ -44,12 +52,69 @@ void draw() {
     rect(width1/2, height1/2, -(ampt*1667), (ampt*1667));
     rect(width1/2, height1/2, -(ampt*1667), -(ampt*900));
     rect(width1/2, height1/2, (ampt*1667), (ampt*1667));
-    translate(width1/2, height1/2, 0);
-    sphere(ampt*20000);
     
-    ;
+    //translate(width1/2, height1/2, 0);
+    //sphere(ampt*20000);
+
+  }
+  if (ampt >.009) {
+     c = new Rectangle();
+     rectangles.add(c);
+     if (rectangles.size() > 150) {
+       rectangles.remove(1); 
+     float limits = ampt*1000;  
+     //for (Rectangle(location.x) > limits)
+  }
   }
 }
 float y(float x) {
    return sin(x)*10 + cos(spectrum[int(x)]);
  }
+
+class Rectangle{
+  PVector location,velocity,acceleration; //creating 3 objects
+  float G,mass,size;
+
+Rectangle(){
+    float limits = width/2 + ampt*1000;  
+    for(int i = 0; i < bands; i++){
+    location = new PVector(random(0,-limits), random(1,400)); //creating the point
+    mass = ampt*500;//random(ampt,ampt*50);
+    size = mass;
+    if (location.x > -limits) {
+     int to_remove = rectangles.get(i)
+     rectangles.remove ( 
+    }
+    }
+    //for(int i = 0; i < bands; i++){
+    //location = new PVector(random(limits,2400), random(1,400)); //creating the point
+    //mass = ampt*500;//random(ampt,ampt*50);
+    //size = mass;
+    //if (location.x > -limits
+    //}
+  }
+
+void display(){
+    stroke(255);
+    rect(location.x, location.y,size,size);
+  }
+
+void checkEdges(){
+    if (location.x < size/2) {
+      location.x = size/2;
+      velocity.x *= -1;
+    } else if (location.x > width/*-size/2*/){
+      location.x = width/*-size/2*/;
+      velocity.x *= ampt;
+    }
+    for(int i = 0; i < bands; i++){  
+    if (location.y < size/2) {
+      location.y = size/2;
+      velocity.y *= spectrum[int(random(1,256))];
+    } else if (location.y > height/*-size/2*/){
+      location.y = height;//-size/2;
+      velocity.y *= -ampt;
+    }
+  }
+  }
+}
