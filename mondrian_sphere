@@ -1,7 +1,5 @@
 //this is audio generative so you need a sound playing in your computer mic
 
-//this is audio generative so you need a sound playing in your computer mic
-
 import processing.sound.*;
 
 ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
@@ -40,9 +38,10 @@ void draw() {
   x = random(0, bands);
   float height1 = float(height);
   float width1 = float(width);
-  
+  //if (rectangles != null) {
   for (int i = 0; i < rectangles.size(); ++i) {//starts at 1 because ++i instead of i++
     rectangles.get(i).display();
+    //}
     //rectangles.get(i).checkEdges();
   }
   for (float t = 0; t < bands; t++) {
@@ -78,7 +77,7 @@ class Rectangle{
 Rectangle(){
     float limits_y = width/2 - ampt*10000;  
     float limits_x = height/2 - ampt*1667;
-    for(int i = 0; i < bands; i++){
+    for(int i = 0; i < rectangles.size(); i++){
     location = new PVector(random(0,limits_y), random(1,limits_x)); //creating the point
     mass = 50;//random(ampt,ampt*50);
     size = mass;
@@ -104,7 +103,9 @@ Rectangle(){
 
 void display(){
     stroke(255);
+    if (rectangles != null) {
     rect(location.x, location.y,size,size);
+    }
   }
 
 void checkEdges(){
