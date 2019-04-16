@@ -1,5 +1,7 @@
 //this is audio generative so you need a sound playing in your computer mic
 
+//this is audio generative so you need a sound playing in your computer mic
+
 import processing.sound.*;
 
 ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
@@ -45,13 +47,13 @@ void draw() {
   }
   for (float t = 0; t < bands; t++) {
     rect(width1/2, 0, -(ampt*10000), height1);
-    rect(width1/2, 0, (ampt*10000), height1);
-    rect(width1/2, 0, width1, (ampt*5000));
-    rect(0, height1, width1/2, -(ampt*1667));
-    rect(width1/2, height1/2, (ampt*1667), -(ampt*1667));
-    rect(width1/2, height1/2, -(ampt*1667), (ampt*1667));
-    rect(width1/2, height1/2, -(ampt*1667), -(ampt*900));
-    rect(width1/2, height1/2, (ampt*1667), (ampt*1667));
+    //rect(width1/2, 0, (ampt*10000), height1);
+    //rect(width1/2, 0, width1, (ampt*5000));
+    //rect(0, height1, width1/2, -(ampt*1667));
+    //rect(width1/2, height1/2, (ampt*1667), -(ampt*1667));
+    //rect(width1/2, height1/2, -(ampt*1667), (ampt*1667));
+    //rect(width1/2, height1/2, -(ampt*1667), -(ampt*900));
+    //rect(width1/2, height1/2, (ampt*1667), (ampt*1667));
     
     //translate(width1/2, height1/2, 0);
     //sphere(ampt*20000);
@@ -60,11 +62,9 @@ void draw() {
   if (ampt >.009) {
      c = new Rectangle();
      rectangles.add(c);
-     if (rectangles.size() > 150) {
-       rectangles.remove(1); 
-     float limits = ampt*1000;  
-     //for (Rectangle(location.x) > limits)
   }
+ if (rectangles.size() > 150) {
+   rectangles.remove(1); 
   }
 }
 float y(float x) {
@@ -76,20 +76,22 @@ class Rectangle{
   float G,mass,size;
 
 Rectangle(){
-    float limits = width/2 + ampt*1000;  
+    float limits_y = width/2 - ampt*10000;  
+    float limits_x = height/2 - ampt*1667;
     for(int i = 0; i < bands; i++){
-    location = new PVector(random(0,-limits), random(1,400)); //creating the point
-    mass = ampt*500;//random(ampt,ampt*50);
+    location = new PVector(random(0,limits_y), random(1,limits_x)); //creating the point
+    mass = 50;//random(ampt,ampt*50);
     size = mass;
-    //for(int i = 0; i < rectangles.size(); i--){
-    //location = new PVector(random(0,-limits), random(1,400)); //creating the point
-    //mass = ampt*500;//random(ampt,ampt*50);
-    //size = mass;
-    //for (int t; t < rectangles.size(); t++) {
-     //Rectangle get_index = rectangles.get(i);
-     //if (location.x > -limits) {
-     //rectangles.remove(i); 
+    if (rectangles != null && location.x+70 > limits_y) {
+     //int to_remove = rectangles.get(i)
+     rectangles.remove(i); 
     }
+    //catch (Exception e) {
+    //  System.out.println("Something went wrong.");
+    //}
+    if (rectangles != null && location.y+70 > limits_x) {
+     //int to_remove = rectangles.get(i)
+     rectangles.remove(i); 
     }
     }
     //for(int i = 0; i < bands; i++){
