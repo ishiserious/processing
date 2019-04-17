@@ -1,5 +1,8 @@
 import processing.sound.*;
 
+ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
+Rectangle c;
+
 FFT fft;
 AudioIn in;
 int bands = 256;
@@ -11,10 +14,15 @@ float ampt;
 
 float x;
 
+int times = minute()*60+second();
+int timem = 0;
+
 void setup() {
   frameRate(200);
   size(2400, 400, P3D);
-  
+  smooth();
+  background(0);
+  stroke(255);
   fft = new FFT(this, bands);
   amp = new Amplitude(this);
   in = new AudioIn(this, 0);
@@ -24,6 +32,7 @@ void setup() {
 }
 
 void draw() {
+  smooth(0);
   background(0);
   stroke(255);
   fill(0);
@@ -33,31 +42,59 @@ void draw() {
   x = random(0, bands);
   float height1 = float(height);
   float width1 = float(width);
-    for (float t = 0; t < bands; t++) {
+    //for (float t = 0; t < bands; t++) {
     rect(width1/2, 0, -(ampt*10000), height1);
     if (ampt > .1) {
-        fill(255); 
+        background(70); 
     } else {
       fill((5000*ampt),(5000*ampt),(5000*ampt));
-    }   
+    } 
+    if (ampt > .009 && second()+minute()*60 - times > 10) {
     rect(width1/2, 0, (ampt*10000), height1);
     rect(width1/2, 0, width1, (ampt*5000));
     rect(0, height1, width1/2, -(ampt*1667));
+    rect(width1/2, height1/2, -(ampt*1667), -(ampt*900));
     rect(width1/2, height1/2, (ampt*1667), -(ampt*1667));
     rect(width1/2, height1/2, -(ampt*1667), (ampt*1667));
-    rect(width1/2, height1/2, -(ampt*1667), -(ampt*900));
     rect(width1/2, height1/2, (ampt*1667), (ampt*1667));
-    if (ampt > .05) {
-      fill(255);
-      rect(0, 0, (ampt*10000), height1);
-      rect(0, 0, width1, (ampt*5000));
-      rect(0, 0, width1/2, -(ampt*1667));
-    } 
-    
-    //translate(width1/2, height1/2, 0);
-    //sphere(ampt*20000);
-
   }
+    if (ampt > .015 && second()+minute()*60 - times > 30) {
+     rect(width1/4, 0, (ampt*50000), height1);
+    rect(width1/4, 0, width1/2, (ampt*5000));
+    rect(0, height1, width1/2, -(ampt*1667));
+      rect(width1/4, height1/2, -(ampt*1667), -(ampt*1667));
+      rect(width1/4, height1/2, (ampt*1667), -(ampt*1667));
+      rect(width1/4, height1/2, -(ampt*1667), (ampt*1667));
+      rect(width1/4, height1/2, (ampt*1667), (ampt*900));
+    }
+  if (ampt > .04 && second()+minute()*60 - times > 55) {
+     rect(width1/4*3, 0, (ampt*12500), height1);
+    rect(width1/4*3, 0, width1/2, (ampt*5000));
+    rect(0, height1, width1/2, -(ampt*1667));
+      rect(width1/4*3, height1/2, -(ampt*1667), -(ampt*1667));
+      rect(width1/4*3, height1/2, (ampt*1667), -(ampt*1667));
+      rect(width1/4*3, height1/2, -(ampt*1667), (ampt*900));
+      rect(width1/4*3, height1/2, (ampt*1667), (ampt*1667));
+    }
+    
+     if (ampt > .06 && second()+minute()*60 - times> 75) {
+      rect(width1/4*3, 0, (ampt*12500), height1);
+      rect(width1/4*3, 0, width1/2, (ampt*5000));
+      rect(0, height1, width1/2, -(ampt*1667));
+      rect(width1/4*3, height1/2, -(ampt*1667), -(ampt*1667));
+      rect(width1/4*3, height1/2, (ampt*1667), -(ampt*1667));
+      rect(width1/4*3, height1/2, -(ampt*1667), (ampt*900));
+      rect(width1/4*3, height1/2, (ampt*1667), (ampt*1667));
+    }
+    if (ampt > .05) {
+      //fill(240);
+     
+     translate(width1/2, height1/2, 0);
+      sphere(ampt*2000);
+      fill(255);
+       } 
+    print(second()+minute()*60 - times);
+  //}
 }
 class Rectangle{
   PVector location,velocity,acceleration; //creating 3 objects
