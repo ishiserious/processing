@@ -39,7 +39,7 @@ void draw() {
     //rotation
     pushMatrix();
     translate(width/2, height/2);
-    r = 0.005;
+    r = -0.05;
     rotate(radians(r));
     translate(-width/2, -height/2);
 
