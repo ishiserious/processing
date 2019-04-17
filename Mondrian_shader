@@ -1,0 +1,89 @@
+import processing.sound.*;
+
+FFT fft;
+AudioIn in;
+int bands = 256;
+float[] spectrum = new float[bands];
+float fft_a;
+
+Amplitude amp;
+float ampt;
+
+float x;
+
+void setup() {
+  frameRate(200);
+  size(2400, 400, P3D);
+  
+  fft = new FFT(this, bands);
+  amp = new Amplitude(this);
+  in = new AudioIn(this, 0);
+  in.start();
+  fft.input(in);
+  amp.input(in);
+}
+
+void draw() {
+  background(0);
+  stroke(255);
+  fill(0);
+  strokeWeight(1);
+  ampt = amp.analyze();
+  fft.analyze(spectrum);
+  x = random(0, bands);
+  float height1 = float(height);
+  float width1 = float(width);
+    for (float t = 0; t < bands; t++) {
+    rect(width1/2, 0, -(ampt*10000), height1);
+    if (ampt > .1) {
+        fill(255); 
+    } else {
+      fill((5000*ampt),(5000*ampt),(5000*ampt));
+    }   
+    rect(width1/2, 0, (ampt*10000), height1);
+    rect(width1/2, 0, width1, (ampt*5000));
+    rect(0, height1, width1/2, -(ampt*1667));
+    rect(width1/2, height1/2, (ampt*1667), -(ampt*1667));
+    rect(width1/2, height1/2, -(ampt*1667), (ampt*1667));
+    rect(width1/2, height1/2, -(ampt*1667), -(ampt*900));
+    rect(width1/2, height1/2, (ampt*1667), (ampt*1667));
+    if (ampt > .05) {
+      fill(255);
+      rect(0, 0, (ampt*10000), height1);
+      rect(0, 0, width1, (ampt*5000));
+      rect(0, 0, width1/2, -(ampt*1667));
+    } 
+    
+    //translate(width1/2, height1/2, 0);
+    //sphere(ampt*20000);
+
+  }
+}
+class Rectangle{
+  PVector location,velocity,acceleration; //creating 3 objects
+  float G,mass,size;
+
+void display(){
+    stroke(255);
+    rect(location.x, location.y,size,size);
+  }
+
+void checkEdges(){
+    if (location.x < size/2) {
+      location.x = size/2;
+      velocity.x *= -1;
+    } else if (location.x > width/*-size/2*/){
+      location.x = width/*-size/2*/;
+      velocity.x *= ampt;
+    }
+    for(int i = 0; i < bands; i++){  
+    if (location.y < size/2) {
+      location.y = size/2;
+      velocity.y *= spectrum[int(random(1,256))];
+    } else if (location.y > height/*-size/2*/){
+      location.y = height;//-size/2;
+      velocity.y *= -ampt;
+    }
+  }
+  }
+}
