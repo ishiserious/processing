@@ -1,9 +1,11 @@
-//this is audio generative so you need a sound playing in your computer mic
-
 import processing.sound.*;
 
 ArrayList<Rectangle> rectangles = new ArrayList<Rectangle>();
-Rectangle c;
+Rectangle r;
+
+int largo = 20;
+float q = 0;
+
 
 FFT fft;
 AudioIn in;
@@ -16,10 +18,14 @@ float ampt;
 
 float x;
 
+int times = minute()*60+second();
+
 void setup() {
-  frameRate(200);
+  frameRate(60);
   size(2400, 400, P3D);
-  
+  smooth();
+  background(0);
+  stroke(255);
   fft = new FFT(this, bands);
   amp = new Amplitude(this);
   in = new AudioIn(this, 0);
@@ -29,6 +35,7 @@ void setup() {
 }
 
 void draw() {
+  smooth(0);
   background(0);
   stroke(255);
   fill(0);
@@ -38,74 +45,115 @@ void draw() {
   x = random(0, bands);
   float height1 = float(height);
   float width1 = float(width);
-  //if (rectangles != null) {
-  for (int i = 0; i < rectangles.size(); ++i) {//starts at 1 because ++i instead of i++
-    rectangles.get(i).display();
-    //}
-    //rectangles.get(i).checkEdges();
-  }
-  for (float t = 0; t < bands; t++) {
+    //for (float t = 0; t < bands; t++) {
     rect(width1/2, 0, -(ampt*10000), height1);
+    if (second()+minute()*60 - times> 100) {
+      fill(0,0,0,0);
+     rect(width1/2, 0, (ampt*10000), height1);
+       } 
+    smooth(0);
+    if (ampt > .1) {
+        background(70); 
+    } else {
+      fill(5000*ampt);
+    } 
+    if (ampt > .009 && second()+minute()*60 - times > 10 && second()+minute()*60 - times < 100) {
     //rect(width1/2, 0, (ampt*10000), height1);
     //rect(width1/2, 0, width1, (ampt*5000));
     //rect(0, height1, width1/2, -(ampt*1667));
-    //rect(width1/2, height1/2, (ampt*1667), -(ampt*1667));
-    //rect(width1/2, height1/2, -(ampt*1667), (ampt*1667));
-    //rect(width1/2, height1/2, -(ampt*1667), -(ampt*900));
-    //rect(width1/2, height1/2, (ampt*1667), (ampt*1667));
-    
-    //translate(width1/2, height1/2, 0);
-    //sphere(ampt*20000);
+    rect(width1/2, height1/2, -(ampt*1667), -(ampt*900));
+    rect(width1/2, height1/2, (ampt*1667), -(ampt*1667));
+    rect(width1/2, height1/2, -(ampt*1667), (ampt*1667));
+    rect(width1/2, height1/2, (ampt*1667), (ampt*1667));
+  }
+  if (ampt > .009 && second()+minute()*60 - times > 1 && second()+minute()*60 - times < 100) {
+    for (float t = 0; t < 186; t += 1) {
+     //if (second()+minute()*60 == t) {
+     r = new Rectangle();
+     rectangles.add(r);
+     //}
+    }
+  }
 
-  }
-  if (ampt >.009) {
-     c = new Rectangle();
-     rectangles.add(c);
-  }
- if (rectangles.size() > 150) {
-   rectangles.remove(1); 
-  }
+    if (ampt > .015 && second()+minute()*60 - times > 30 && second()+minute()*60 - times < 100) {
+     rect(width1/4, 0, (ampt*50000), height1);
+    rect(width1/4, 0, width1/2, (ampt*5000));
+    rect(0, height1, width1/2, -(ampt*1667));
+      rect(width1/4, height1/2, -(ampt*1667), -(ampt*1667));
+      rect(width1/4, height1/2, (ampt*1667), -(ampt*1667));
+      rect(width1/4, height1/2, -(ampt*1667), (ampt*1667));
+      rect(width1/4, height1/2, (ampt*1667), (ampt*900));
+     for (int x = 0; x < width; x+=20) 
+        {
+          for (int y = 0; y < height; y+=20)
+          {
+            stroke(q);
+            strokeWeight(0);
+            fill(q,q,q,30);
+            rect(x,y,largo-1,largo-1);
+            q = random((ampt*255)/.1);
+        }
+        }
+    }
+  if (ampt > .04 && second()+minute()*60 - times > 55 && second()+minute()*60 - times < 100) {
+     rect(width1/4*3, 0, (ampt*12500), height1);
+    rect(width1/4*3, 0, width1/2, (ampt*5000));
+    rect(0, height1, width1/2, -(ampt*1667));
+      rect(width1/4*3, height1/2, -(ampt*1667), -(ampt*1667));
+      rect(width1/4*3, height1/2, (ampt*1667), -(ampt*1667));
+      rect(width1/4*3, height1/2, -(ampt*1667), (ampt*900));
+      rect(width1/4*3, height1/2, (ampt*1667), (ampt*1667));
+    }
+    
+     if (ampt > .06 && second()+minute()*60 - times> 75 && second()+minute()*60 - times < 100) {
+      rect(width1/4*3, 0, (ampt*12500), height1);
+      rect(width1/4*3, 0, width1/2, (ampt*5000));
+      rect(0, height1, width1/2, -(ampt*1667));
+      rect(width1/4*3, height1/2, -(ampt*1667), -(ampt*1667));
+      rect(width1/4*3, height1/2, (ampt*1667), -(ampt*1667));
+      rect(width1/4*3, height1/2, -(ampt*1667), (ampt*900));
+      rect(width1/4*3, height1/2, (ampt*1667), (ampt*1667));
+    }
+    
+    if (ampt > .06 && second()+minute()*60 - times> 75 && second()+minute()*60 - times < 100) {
+      rect(0, 0, (ampt*1250), height1/ampt);
+      rect(0, height1*3/6, (ampt*1000), height1/ampt);
+      for (int x = 0; x < width; x+=20) 
+        {
+          for (int y = 0; y < height; y+=20)
+          {
+            stroke(q);
+            strokeWeight(0);
+            fill(q,q,q,100);
+            rect(x,y,largo-1,largo-1);
+            q = random((ampt*255)/.1);
+          }
+        }
+    }
+    if (ampt > .05 && second()+minute()*60 - times> 100) {
+     //fill(240);
+     rect(width1/2, 0, (ampt*10000), height1);
+     translate(width1/2, height1/2, 0);
+      sphere(ampt*2000);
+      //fill(255);
+       } 
+    print(second()+minute()*60 - times);
+  //}
 }
-float y(float x) {
-   return sin(x)*10 + cos(spectrum[int(x)]);
- }
+
 
 class Rectangle{
   PVector location,velocity,acceleration; //creating 3 objects
   float G,mass,size;
-
-Rectangle(){
-    float limits_y = width/2 - ampt*10000;  
-    float limits_x = height/2 - ampt*1667;
-    for(int i = 0; i < rectangles.size(); i++){
-    location = new PVector(random(0,limits_y), random(1,limits_x)); //creating the point
-    mass = 50;//random(ampt,ampt*50);
-    size = mass;
-    if (rectangles != null && location.x+70 > limits_y) {
-     //int to_remove = rectangles.get(i)
-     rectangles.remove(i); 
-    }
-    //catch (Exception e) {
-    //  System.out.println("Something went wrong.");
-    //}
-    if (rectangles != null && location.y+70 > limits_x) {
-     //int to_remove = rectangles.get(i)
-     rectangles.remove(i); 
-    }
-    }
-    //for(int i = 0; i < bands; i++){
-    //location = new PVector(random(limits,2400), random(1,400)); //creating the point
-    //mass = ampt*500;//random(ampt,ampt*50);
-    //size = mass;
-    //if (location.x > -limits
-    //}
+Rectangle() {
+  for(int i = 0; i < 186; i++){
+    location = new PVector(2400/(second()+minute()*60), 0);
   }
-
+  }
+  
 void display(){
-    stroke(255);
-    if (rectangles != null) {
-    rect(location.x, location.y,size,size);
-    }
+    fill(255);
+    rect(location.x, location.y,1,400);
   }
 
 void checkEdges(){
