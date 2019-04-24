@@ -16,13 +16,10 @@ float fft_a;
 Amplitude amp;
 float ampt;
 float u = 1;
-float v = 1;
 float x;
 
 int times = minute()*60+second();
-
 void setup() {
-  frameRate(60);
   size(2400, 400, P3D);
   smooth();
   background(0);
@@ -36,6 +33,7 @@ void setup() {
 }
 
 void draw() {
+  frameRate(30);
   smooth(0);
   background(0);
   stroke(255);
@@ -52,21 +50,29 @@ void draw() {
         float n = i/6;
         rect(width1*n, 0, -(ampt*10000), height1);}
     }
-    if (second()+minute()*60 - times > 20 && second()+minute()*60 - times < 67) {
-      for (float i = 0; i <= 600*ampt; i += 1) {
-        float n = i/600*ampt;
-        rect(width1*n, 0, (ampt*10000), height1);}
+    if (second()+minute()*60 - times >2 && second()+minute()*60 - times < 67) {
+      for (float i = 0; i <= 6; i += 1) {
+        float n = i/6;
+        rect(width1*n, 0, (ampt*10000), height1);
+        //if (second() % 4 == 0) {
+        //  rect(width1*n*second()*1000, 0, (ampt*10000), height1);
+        //  float ep = second()+10;
+        //rect(width1*ep, 0, (ampt*10000), height1);
+     // }
+      }
+        if (second()+minute()*60 - times > 28) {
+          for (float i = 0; i <= 100; i += 1) {
+        float n = i/100;
+        rect(width1*n, 0, (ampt*10000), height1);
+        rect(width1*n, 0, -(ampt*10000), height1);}
     }
-    if (second()+minute()*60 - times> 100) {
-      fill(0,0,0,0);
-     rect(width1/2, 0, (ampt*10000), height1);
-       } 
+    }
     smooth(0);
-    if (ampt > .1) {
-        background(70); 
-    } else {
-      fill(5000*ampt);
-    } 
+    //if (ampt > .1) {
+    //    background(70); 
+    //} else {
+    //  fill(5000*ampt);
+    //} 
     
   //this is to create initial mondrian sqaure
     if (ampt > .009 && second()+minute()*60 - times > 10 && second()+minute()*60 - times < 67) {
@@ -91,7 +97,8 @@ void draw() {
           rect(width1*n+u/2, height1*m-u, (40), -(30));
           rect(width1*n+u, height1*m+u, -(60), (50));
           rect(width1*n+u*2, height1*m-u, (20), (50));
-           u=u+.001;
+          if (second() % 4 == 0) {
+           u=u+.001;} else {u=u-.001;}
           //n++
           }
           }
@@ -103,21 +110,24 @@ void draw() {
           rect(width1*n, height1/2, -(ampt*5000), (ampt*5000));
           rect(width1*n, height1/2, (ampt*5000), (ampt*5000));
           }
-          print(second()+minute()*60 - times);
+
+    if (second()+minute()*60 - times> 83) {
+     for (int x = 0; x < width; x+=20) 
+        {
+          for (int y = 0; y < height; y+=20)
+          {
+            stroke(255);
+            strokeWeight(1);
+            fill(q,q,q,30);
+            rect(x,y,largo-1,largo-1);
+            q = random((ampt*1000*255)/.1);
+        }
+        }
+       } 
     // rect(width1/4, 0, (ampt*50000), height1);
     //rect(width1/4, 0, width1/2, (ampt*5000));
     //rect(0, height1, width1/2, -(ampt*1667));
-     //for (int x = 0; x < width; x+=20) 
-     //   {
-     //     for (int y = 0; y < height; y+=20)
-     //     {
-     //       stroke(q);
-     //       strokeWeight(0);
-     //       fill(q,q,q,30);
-     //       rect(x,y,largo-1,largo-1);
-     //       q = random((ampt*255)/.1);
-     //   }
-     //   }
+     //
     }
   //if (ampt > .04 && second()+minute()*60 - times > 55 && second()+minute()*60 - times < 100) {
   //   rect(width1/4*3, 0, (ampt*12500), height1);
@@ -164,21 +174,22 @@ void draw() {
   //     } 
     //print(second()+minute()*60 - times);
   //}
+  
+  saveFrame("output/55_####.png");
 }
-
 
 class Rectangle{
   PVector location,velocity,acceleration; //creating 3 objects
   float G,mass,size;
 Rectangle() {
   for(int i = 0; i < 186; i++){
-    location = new PVector(2400/(second()+minute()*60), 0);
+    location = new PVector(second()*100, 0);
   }
   }
   
 void display(){
     fill(255);
-    rect(location.x, location.y,1,400);
+    rect(location.x, location.y,ampt*10000, 0);
   }
 
 void checkEdges(){
